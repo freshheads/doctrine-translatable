@@ -16,9 +16,9 @@ use Prezent\Doctrine\Translatable\TranslatableInterface;
 trait TranslationTrait
 {
 
-    #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
+    #[ORM\Column(name: 'id', type: 'integer', nullable: false, options: ['unsigned' => true])]
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected $id;
 
 
