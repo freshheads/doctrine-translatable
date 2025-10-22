@@ -9,7 +9,6 @@
 
 namespace Prezent\Doctrine\Translatable\EventListener;
 
-use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
@@ -22,10 +21,8 @@ use Prezent\Doctrine\Translatable\Mapping\TranslationMetadata;
 
 /**
  * Load translations on demand
- *
- * @see EventSubscriber
  */
-class TranslatableListener implements EventSubscriber
+class TranslatableListener
 {
     /**
      * @var string Locale to use for translations
