@@ -9,16 +9,15 @@
 
 namespace Prezent\Doctrine\Translatable\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Prezent\Doctrine\Translatable\TranslationInterface;
 
 trait TranslatableTrait
 {
     /**
-     * Get the translations
-     *
-     * @return ArrayCollection
+     * @return Collection<int, TranslationInterface>
      */
-    public function getTranslations()
+    public function getTranslations(): Collection
     {
         return $this->translations;
     }

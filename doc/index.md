@@ -24,6 +24,5 @@ Index
 1. [Installation](installation.md)
 2. [Getting started](getting-started.md)
 3. [Usage](usage.md)
-4. [Complete examples](examples.md)
-5. [Yaml mapping](yaml-mapping.md)
-6. [Xml mapping](xml-mapping.md)
+4. [Yaml mapping](yaml-mapping.md)
+5. [Xml mapping](xml-mapping.md)

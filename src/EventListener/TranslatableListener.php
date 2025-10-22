@@ -22,7 +22,7 @@ use Prezent\Doctrine\Translatable\TranslationInterface;
 /**
  * Load translations on demand
  */
-class TranslatableListener
+final class TranslatableListener
 {
     /**
      * @var string Locale to use for translations
@@ -40,9 +40,9 @@ class TranslatableListener
     private $metadataFactory;
 
     /**
-     * @var array
+     * @var array<class-string, TranslatableMetadata|TranslationMetadata>
      */
-    private $cache = array();
+    private $cache = [];
 
     /**
      * Constructor

@@ -9,13 +9,12 @@
 
 namespace Prezent\Doctrine\Translatable\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Prezent\Doctrine\Translatable\TranslatableInterface;
 use Prezent\Doctrine\Translatable\TranslationInterface;
 
-/**
- * @ORM\MappedSuperclass
- */
+#[ORM\MappedSuperclass]
 abstract class AbstractTranslatable implements TranslatableInterface
 {
     /**
@@ -35,9 +34,9 @@ abstract class AbstractTranslatable implements TranslatableInterface
     /**
      * Get the translations
      *
-     * @return ArrayCollection
+     * @return Collection<int, TranslationInterface>
      */
-    public function getTranslations()
+    public function getTranslations(): Collection
     {
         return $this->translations;
     }

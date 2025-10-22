@@ -19,13 +19,9 @@ use Prezent\Doctrine\Translatable\TranslationInterface;
  */
 abstract class AbstractTranslation implements TranslationInterface
 {
-    /**
-     * ID
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(name="id", type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(name: 'id', type: 'integer')]
     protected $id;
 
     /**
@@ -37,10 +33,9 @@ abstract class AbstractTranslation implements TranslationInterface
 
     /**
      * Locale
-     *
-     * @ORM\Column(name="locale", type="string")
-     * @Prezent\Locale
      */
+    #[Prezent\Locale]
+    #[ORM\Column(name: 'locale', type: 'string')]
     protected $locale;
 
     /**
@@ -69,7 +64,7 @@ abstract class AbstractTranslation implements TranslationInterface
      * @param TranslatableInterface $translatable
      * @return self
      */
-    public function setTranslatable(TranslatableInterface $translatable = null)
+    public function setTranslatable(?TranslatableInterface $translatable = null)
     {
         if ($this->translatable == $translatable) {
             return $this;
