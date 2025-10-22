@@ -9,15 +9,15 @@
 
 namespace Prezent\Doctrine\Translatable\EventListener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
-use Doctrine\ORM\Events;
+use Doctrine\ORM\Event\PostLoadEventArgs;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\Persistence\Proxy;
 use Metadata\MetadataFactory;
 use Prezent\Doctrine\Translatable\Mapping\TranslatableMetadata;
 use Prezent\Doctrine\Translatable\Mapping\TranslationMetadata;
+use Prezent\Doctrine\Translatable\TranslatableInterface;
+use Prezent\Doctrine\Translatable\TranslationInterface;
 
 /**
  * Load translations on demand
@@ -109,17 +109,6 @@ class TranslatableListener
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getSubscribedEvents(): array
-    {
-        return array(
-            Events::loadClassMetadata,
-            Events::postLoad,
-        );
-    }
-
-    /**
      * Add mapping to translatable entities
      *
      * @param LoadClassMetadataEventArgs $eventArgs
@@ -134,11 +123,11 @@ class TranslatableListener
             return;
         }
 
-        if ($reflClass->implementsInterface('Prezent\Doctrine\Translatable\TranslatableInterface')) {
+        if ($reflClass->implementsInterface(TranslatableInterface::class)) {
             $this->mapTranslatable($classMetadata);
         }
 
-        if ($reflClass->implementsInterface('Prezent\Doctrine\Translatable\TranslationInterface')) {
+        if ($reflClass->implementsInterface(TranslationInterface::class)) {
             $this->mapTranslation($classMetadata);
         }
     }
@@ -159,15 +148,15 @@ class TranslatableListener
         ) {
             $targetMetadata = $this->getTranslatableMetadata($metadata->targetEntity);
 
-            $mapping->mapOneToMany(array(
+            $mapping->mapOneToMany([
                 'fieldName'     => $metadata->translations->name,
                 'targetEntity'  => $metadata->targetEntity,
                 'mappedBy'      => $targetMetadata->translatable->name,
-                'fetch'         => ClassMetadataInfo::FETCH_EXTRA_LAZY,
+                'fetch'         => ClassMetadata::FETCH_EXTRA_LAZY,
                 'indexBy'       => $targetMetadata->locale->name,
-                'cascade'       => array('persist', 'merge', 'remove'),
+                'cascade'       => ['persist', 'merge', 'remove'],
                 'orphanRemoval' => true,
-            ));
+            ]);
         }
     }
 
@@ -284,14 +273,11 @@ class TranslatableListener
 
     /**
      * Load translations
-     *
-     * @param LifecycleEventArgs $args
-     * @return void
      */
-    public function postLoad(LifecycleEventArgs $args)
+    public function postLoad(PostLoadEventArgs $args): void
     {
-        $entity = $args->getEntity();
-        $class = $args->getEntityManager()->getClassMetadata(get_class($entity))->getName(); // Resolve proxy class
+        $entity = $args->getObject();
+        $class = $args->getObjectManager()->getClassMetadata(get_class($entity))->getName(); // Resolve proxy class
         $metadata = $this->getTranslatableMetadata($class);
 
         if ($metadata instanceof TranslatableMetadata) {
