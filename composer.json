@@ -25,12 +25,15 @@
         "doctrine/orm": ">=2.12.0",
         "jms/metadata": "^1.1|^2.0",
         "symfony/cache": "^5.0|^6.0|^7.0",
-        "doctrine/annotations": "^2.0",
         "doctrine/collections": "^2.3"
     },
     "require-dev": {
         "symfony/yaml": "^5.0|^6.0|^7.0",
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^8.5",
+        "doctrine/annotations": "^2.0"
+    },
+    "suggest": {
+        "doctrine/annotations": "Needed for the (deprecated) AnnotationDriver; the AttributeDriver does not require it"
     },
     "autoload": {
         "psr-4": {
